@@ -3,6 +3,6 @@ class TabItemData {
   final String title;
   final String image;
 
-  TabItemData({this.index, this.title, this.image});
+  TabItemData({required this.index, required this.title, required this.image});
 
 }

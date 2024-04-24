@@ -10,13 +10,13 @@ class StrokeText extends StatelessWidget {
 
   const StrokeText(
       this.text, {
-        Key key,
-        this.fontSize,
-        this.fontWeight,
-        this.color,
-        this.strokeColor,
-        this.strokeWidth,
-      }) : super(key: key);
+        super.key,
+        required this.fontSize,
+        required this.fontWeight,
+        required this.color,
+        required this.strokeColor,
+        required this.strokeWidth,
+      });
 
   @override
   Widget build(BuildContext context) {

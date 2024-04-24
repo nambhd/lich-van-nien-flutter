@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SelectDateButton extends StatelessWidget {
-  SelectDateButton({this.title, this.onPress});
+  SelectDateButton({required this.title, required this.onPress});
 
   final String title;
-  final Function onPress;
+  final VoidCallback onPress;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var textStyle = TextStyle(
       color: Colors.white,
       fontSize: 17,fontWeight: FontWeight.bold

@@ -10,7 +10,6 @@ class EventItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     const titleStyle = TextStyle(color: Colors.white);
     const contentStyle = TextStyle(color: Colors.white);
     var dayOfWeek = getNameDayOfWeek(event.date);

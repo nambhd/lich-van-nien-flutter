@@ -13,9 +13,9 @@ class MonthContainer extends StatefulWidget {
 
 class _MonthContainerState extends State<MonthContainer>
     with AutomaticKeepAliveClientMixin<MonthContainer> {
-  List<EventVO> _eventData = new List();
-  List<EventVO> _eventByMonths = new List();
-  List<DateTime> _markedDates = new List();
+  List<EventVO> _eventData = new List<EventVO>.empty();
+  List<EventVO> _eventByMonths = new List<EventVO>.empty();
+  List<DateTime> _markedDates = new List<DateTime>.empty();
   DateTime _calendar = DateTime.now();
 
   @override

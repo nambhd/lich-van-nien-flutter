@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class SwipeDetector extends StatelessWidget {
-  @required SwipeDetector({this.onSwipeLeft, this.onSwipeRight, this.child});
+  @required SwipeDetector({required this.onSwipeLeft, required this.onSwipeRight, required this.child});
   final Function onSwipeLeft;
   final Function onSwipeRight;
   final Widget child;

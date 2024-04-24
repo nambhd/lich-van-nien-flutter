@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TabItem extends StatelessWidget {
-  TabItem({this.title, this.image, this.isSelected, this.onPress});
+  TabItem({required this.title, required this.image, required this.isSelected, required this.onPress});
   final bool isSelected;
   final String title;
   final String image;
-  final Function onPress;
+  final VoidCallback onPress;
   var unSelectColor = Colors.white30;
   var selectedColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var iconColor = isSelected ? selectedColor : unSelectColor;
     var textStyle = TextStyle(
       color: isSelected ? selectedColor : unSelectColor,

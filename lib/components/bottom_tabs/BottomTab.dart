@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'TabItemData.dart';
 import 'TabItem.dart';
 class BottomTab extends StatelessWidget {
-  @required BottomTab({this.items, this.currentIndex, this.onTabTapped});
+  @required BottomTab({required this.items, required this.currentIndex, required this.onTabTapped});
   final List<TabItemData>items;
   final int currentIndex;
   final Function onTabTapped;
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = new List();
+    List<Widget> children = <TabItem>[];
      items.forEach((item) {
       var tabItem = TabItem(
         title: item.title,

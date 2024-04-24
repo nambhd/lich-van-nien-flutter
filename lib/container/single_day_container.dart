@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/animation.dart';
 
 import 'package:calendar/components/StrokeText.dart';
 import 'package:calendar/components/SelectDateButton.dart';
@@ -19,11 +18,11 @@ class SingleDayContainer extends StatefulWidget {
 
 class _SingleDayContainerState extends State<SingleDayContainer>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SingleDayContainer> {
-  List<QuoteVO> _quoteData = new List();
+  List<QuoteVO> _quoteData = new List<QuoteVO>.empty();
   DateTime _selectedDate = DateTime.now();
-  Timer _timer;
-  AnimationController _controller;
-  Animation<double> _animation;
+  late Timer _timer;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -76,7 +75,7 @@ class _SingleDayContainerState extends State<SingleDayContainer>
   }
 
   Future<Null> _showDatePicker(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: _selectedDate,
         firstDate: DateTime(1920, 8),
@@ -189,6 +188,7 @@ class _SingleDayContainerState extends State<SingleDayContainer>
                         fontSize: 120,
                         color: Colors.white,
                         strokeColor: Colors.white,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                     this.paddingText(5, dayOfWeek, dayOfWeekStyle),

@@ -10,7 +10,7 @@ import 'package:calendar/components/SwipeDetector.dart';
 class Calendar extends StatefulWidget {
   final List<DateTime> markedDays;
   final Function onDateTimeChanged;
-  Calendar({this.markedDays, this.onDateTimeChanged});
+  Calendar({required this.markedDays, required this.onDateTimeChanged});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,17 +24,18 @@ class _CalendarState extends State<Calendar>  with TickerProviderStateMixin  {
   final Function onDateTimeChanged;
   final List<DateTime> markedDays;
   DateTime calendar = DateTime.now();
-  DateTime selectedDate;
+  late DateTime selectedDate;
 
   //animation
-  AnimationController _controller;
-  Animation<Offset> _offsetFloat;
+  late AnimationController _controller;
+  late Animation<Offset> _offsetFloat;
 
 
   @override
   void initState() {
     calendar = DateTime.now();
 
+    selectedDate = calendar;
     //animation
     _controller = AnimationController(
       vsync: this,

@@ -1,4 +1,3 @@
-import 'package:calendar/container/convert_container.dart';
 import 'package:calendar/container/info_container.dart';
 import 'package:calendar/container/month_container.dart';
 import 'package:calendar/container/single_day_container.dart';
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -43,14 +42,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  final List<Widget> tabs = [
+  final List<Widget> _widgets = [
     SingleDayContainer(),
     MonthContainer(),
     InfoContainer()
   ];
 
-  void onTabTapped(int index) {
-    print(index);
+  void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -66,13 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
             IndexedStack(
               index: _currentIndex,
               children: <Widget>[
-                ...tabs
+                ..._widgets
               ],
             ),
                 // new
                 BottomTab(
                   currentIndex: _currentIndex,
-                  onTabTapped: onTabTapped,
+                  onTabTapped: _onItemTapped,
                   items: [
                     TabItemData(
                         index: 0,

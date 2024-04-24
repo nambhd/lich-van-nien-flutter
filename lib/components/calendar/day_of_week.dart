@@ -9,7 +9,6 @@ class DayOfWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       width: width,
       height: width,

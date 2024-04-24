@@ -3,7 +3,7 @@ import 'EventItem.dart';
 import 'package:calendar/model/EventVO.dart';
 
 class EventList extends StatelessWidget {
-  EventList({this.data});
+  EventList({required this.data});
   final List<EventVO> data;
 
   Widget renderItem(EventVO event) {
@@ -12,7 +12,6 @@ class EventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
 
     return  ListView.builder(
       itemCount: data.length,

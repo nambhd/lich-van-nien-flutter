@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:calendar/components/calendar/constants.dart';
 class Header extends StatelessWidget {
-  Header({this.currentMonth, this.onPreviousPress, this.onNextPress});
+  Header({required this.currentMonth, required this.onPreviousPress, required this.onNextPress});
   final DateTime currentMonth;
   final Function onPreviousPress;
   final Function onNextPress;

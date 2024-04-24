@@ -13,12 +13,12 @@ class Day extends StatelessWidget {
   final List<DateTime> markedDays;
 
   Day({
-    @required this.width,
-    @required this.date,
-    @required this.currentCalendar,
-    @required this.selectedDate,
-    @required this.onDayPress,
-    @required this.markedDays,
+    required this.width,
+    required this.date,
+    required this.currentCalendar,
+    required this.selectedDate,
+    required this.onDayPress,
+    required this.markedDays,
   });
 
   bool checkMarked() {
@@ -33,7 +33,6 @@ class Day extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var notInMainCalendar = false;
     DateTime now = DateTime.now();
     var lunarDay = convertSolar2Lunar(date.day, date.month, date.year, 7)[0];

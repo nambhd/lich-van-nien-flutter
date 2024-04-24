@@ -1,4 +1,3 @@
-import 'dart:async' show Future;
 import 'dart:convert';
 import 'dart:core';
 import 'package:calendar/model/EventVO.dart';
@@ -11,7 +10,7 @@ Future<String> loadAssets(name) async {
 
 Future<List<EventVO>> loadEventData() async {
   var jsonString = await loadAssets('assets/events.json');
-  List<EventVO> results = List();
+  List<EventVO> results = List<EventVO>.empty();
   List jsonData = jsonDecode(jsonString);
   jsonData.forEach((element) {
     String dateString = element['date'];
@@ -27,7 +26,7 @@ Future<List<EventVO>> loadEventData() async {
 
 Future<List<QuoteVO>> loadQuoteData() async {
   var jsonString = await loadAssets('assets/quotes.json');
-  List<QuoteVO> results = List();
+  List<QuoteVO> results = List<QuoteVO>.empty();
   List jsonData = jsonDecode(jsonString);
   jsonData.forEach((element) {
     String content = element['content'];
