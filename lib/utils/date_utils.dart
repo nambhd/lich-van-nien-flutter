@@ -18,7 +18,8 @@ String getNameDayOfWeek(DateTime date) {
   if(date.weekday == DateTime.saturday) {
     return "Thứ 7";
   }
-    return "Chủ Nhật";
+  
+  return "Chủ Nhật";
 }
 
 DateTime increaseDay(DateTime date) {

@@ -10,48 +10,6 @@ import 'dart:math';
 
 var PI = pi;
 
-const canList = [
-  "Canh",
-  "Tân",
-  "Nhâm",
-  "Quý",
-  "Giáp",
-  "Ất",
-  "Bính",
-  "Đinh",
-  "Mậu",
-  "Kỉ"
-];
-const chiList = [
-  "Thân",
-  "Dậu",
-  "Tuất",
-  "Hợi",
-  "Tý",
-  "Sửu",
-  "Dần",
-  "Mẹo",
-  "Thìn",
-  "Tị",
-  "Ngọ",
-  "Mùi"
-];
-
-const chiForMonthList = [
-  "Dần",
-  "Mẹo",
-  "Thìn",
-  "Tị",
-  "Ngọ",
-  "Mùi",
-  "Thân",
-  "Dậu",
-  "Tuất",
-  "Hợi",
-  "Tý",
-  "Sửu",
-];
-
 const CAN = ['Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ', 'Canh', 'Tân', 'Nhâm', 'Quý'];
 const CHI = ['Tý', 'Sửu', 'Dần', 'Mẹo', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'];
 const TIETKHI = ['Xuân phân', 'Thanh minh', 'Cốc vũ', 'Lập hạ', 'Tiểu mãn', 'Mang chủng',
@@ -76,8 +34,7 @@ jdFromDate(dd, mm, yy) {
   a = INT((14 - mm) / 12);
   y = yy + 4800 - a;
   m = mm + 12 * a - 3;
-  jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - INT(y / 100) +
-      INT(y / 400) - 32045;
+  jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - INT(y / 100) + INT(y / 400) - 32045;
   if (jd < 2299161) {
     jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - 32083;
   }
@@ -180,7 +137,7 @@ getNewMoonDay(k, timeZone) {
   return INT(NewMoon(k) + 0.5 + timeZone / 24);
 }
 
-/* Find the day that starts the luner month 11 of the given year for the given time zone */
+/* Find the day that starts the lunar month 11 of the given year for the given time zone */
 getLunarMonth11(yy, timeZone) {
   var k, off, nm, sunLong;
   //off = jdFromDate(31, 12, yy) - 2415021.076998695;
@@ -282,57 +239,6 @@ convertLunar2Solar(lunarDay, lunarMonth, lunarYear, lunarLeap, timeZone) {
   return jdToDate(monthStart + lunarDay - 1);
 }
 
-getCanChiYear(int year) {
-  var can = canList[year % 10];
-  var chi = chiList[year % 12];
-  return '${can} ${chi}';
-}
-
-getCanChiMonth(int month, int year) {
-  var chi = chiForMonthList[month - 1];
-  var indexCan = 0;
-  var can = canList[year % 10];
-
-  if (can == "Giáp" || can == "Kỉ") {
-    indexCan = 6;
-  }
-  if (can == "Ất" || can == "Canh") {
-    indexCan = 8;
-  }
-  if (can == "Bính" || can == "Tân") {
-    indexCan = 0;
-  }
-  if (can == "Đinh" || can == "Nhâm") {
-    indexCan = 2;
-  }
-  if (can == "Mậu" || can == "Quý") {
-    indexCan = 4;
-  }
-  return '${canList[(indexCan + month - 1) % 10]} ${chi}';
-}
-
-// getDayName(lunarDate) {
-//  if (lunarDate.day == 0) {
-//    return "";
-//  }
-//  var cc = getCanChi(lunarDate);
-//  var s = "Ngày " + cc[0] +", tháng "+cc[1] + ", năm " + cc[2];
-//  return s;
-//}
-
- getYearCanChi(year) {
-  return CAN[(year+6) % 10] + " " + CHI[(year+8) % 12];
-}
-
-getCanHour(jdn) {
-  return CAN[(jdn - 1) * 2 % 10];
-}
-
- getCanDay(jdn) {
-  var dayName, monthName, yearName;
-  dayName = CAN[(jdn + 9) % 10] + " " + CHI[(jdn+1)%12];
-  return dayName;
-}
 
 jdn(dd, mm, yy) {
   var a = INT((14 - mm) / 12);
@@ -340,28 +246,4 @@ jdn(dd, mm, yy) {
   var m = mm+12*a-3;
   var jd = dd + INT((153*m+2)/5) + 365*y + INT(y/4) - INT(y/100) + INT(y/400) - 32045;
   return jd;
-}
-
-getGioHoangDao(jd) {
-  var chiOfDay = (jd+1) % 12;
-  var gioHD = GIO_HD[chiOfDay % 6]; // same values for Ty' (1) and Ngo. (6), for Suu and Mui etc.
-  var ret = "";
-  var count = 0;
-  for (var i = 0; i < 12; i++) {
-    if (gioHD.substring(i, i + 1) == '1') {
-      ret += CHI[i];
-      ret += ' (${{(i*2+23)%24}}-${{(i*2+1)%24}})';
-      if (count++ < 5) ret += ', ';
-      if (count == 3) ret += '\n';
-    }
-  }
-  return ret;
-}
-
-getTietKhi(jd) {
-  return TIETKHI[getSunLongitude(jd + 1, 7.0)];
-}
-
-getBeginHour(jdn) {
-  return CAN[(jdn - 1) * 2 % 10] + ' ' +  CHI[0];
 }

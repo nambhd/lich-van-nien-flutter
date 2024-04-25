@@ -1,3 +1,4 @@
+import 'package:calendar/utils/can_chi_utils.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -240,24 +241,23 @@ class _SingleDayContainerState extends State<SingleDayContainer>
     var bottomStyle = TextStyle(color: Colors.white);
     var dayStyle = TextStyle(
         color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
-    var hourMinute = '${_selectedDate.hour}:${_selectedDate.minute}';
-    var lunarDates = convertSolar2Lunar(
-        _selectedDate.day, _selectedDate.month, _selectedDate.year, 7);
+    
+    var hourMinute = '${_selectedDate.hour.toString().padLeft(2, '0')}:${_selectedDate.minute.toString().padLeft(2, '0')}';
+    var lunarDates = convertSolar2Lunar(_selectedDate.day, _selectedDate.month, _selectedDate.year, 7);
+    var jd = jdn(_selectedDate.day, _selectedDate.month, _selectedDate.year);
+
     var lunarDay = lunarDates[0];
     var lunarMonth = lunarDates[1];
     var lunarYear = lunarDates[2];
-    var lunarMonthName = getCanChiMonth(lunarMonth, lunarYear);
 
-    //get day and hour by can chi
-    var jd = jdn(_selectedDate.day, _selectedDate.month, _selectedDate.year);
-    var dayName = getCanDay(jd);
-//    print('day name is ${{dayName}}');
+    var lunarYearNameInCanChi = getLunarYearNameInCanChi(lunarYear);
+    var lunarMonthNameInCanChi = getLunarMonthNameInCanChi(lunarMonth, lunarYear);
+    var lunarDayNameInCanChi = getLunarDayNameInCanChi(jd);
+
+    
+    
     var beginHourName = getBeginHour(jd);
-//    print('hourName is ${{hourName}}');
-//    var hoangDaoHour = getGioHoangDao(jd);
-//    print('hoangDaoHour is ${{hoangDaoHour}}');
-//    var tietKhi = getTietKhi(jd);
-//    print('tietKhi is ${{tietKhi}}');
+
     return Container(
       height: 120,
       color: Colors.black.withOpacity(0.3),
@@ -270,7 +270,6 @@ class _SingleDayContainerState extends State<SingleDayContainer>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Giờ đầu", style: headerStyle),
                     Text(hourMinute, style: bodyStyle),
                     Text(beginHourName, style: bottomStyle),
                   ],
@@ -281,20 +280,17 @@ class _SingleDayContainerState extends State<SingleDayContainer>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Ngày", style: headerStyle),
                     Text(lunarDay.toString(), style: dayStyle),
-                    Text(dayName, style: bottomStyle),
+                    Text('THÁNG ${lunarMonth.toString()}', style: headerStyle),
                   ],
                 ),
                 true),
             this.infoBox(
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Tháng", style: headerStyle),
-                    Text(lunarMonth.toString(), style: bodyStyle),
-                    Text(lunarMonthName, style: bottomStyle),
+                    Text('Năm ${lunarYearNameInCanChi}\nTháng ${lunarMonthNameInCanChi}\nNgày ${lunarDayNameInCanChi}', style: bottomStyle),
                   ],
                 ),
                 false)
