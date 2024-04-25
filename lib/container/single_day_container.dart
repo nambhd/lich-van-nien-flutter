@@ -20,7 +20,10 @@ class SingleDayContainer extends StatefulWidget {
 class _SingleDayContainerState extends State<SingleDayContainer>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SingleDayContainer> {
   List<QuoteVO> _quoteData = new List<QuoteVO>.empty();
+
   DateTime _selectedDate = DateTime.now();
+  var jd;
+  
   late Timer _timer;
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -29,6 +32,9 @@ class _SingleDayContainerState extends State<SingleDayContainer>
   void initState() {
     super.initState();
     this._getData();
+
+    jd = jdn(_selectedDate.day, _selectedDate.month, _selectedDate.year);
+
     //_animation
     _controller = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
@@ -174,7 +180,7 @@ class _SingleDayContainerState extends State<SingleDayContainer>
                 child: Image(
                   image: AssetImage('assets/image_${backgroundIndex + 1}.jpg'),
                   fit: BoxFit.cover,
-                  width: 900,
+                  width: 1200,
                 ),
               ),
               Padding(
@@ -223,11 +229,26 @@ class _SingleDayContainerState extends State<SingleDayContainer>
   Widget infoBox(Widget widget, bool hasBorder) {
     return Expanded(
       child: (Container(
-        padding: EdgeInsets.only(right: 10),
+        height: 120,
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             border: Border(
                 right:
                     BorderSide(color: Colors.grey, width: hasBorder ? 1 : 0))),
+        child: widget,
+      )),
+    );
+  }
+
+  Widget bottomBox(Widget widget) {
+    return Expanded(
+      child: (Container(
+        height: 60,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border(
+                top:
+                    BorderSide(color: Colors.grey, width: 1))),
         child: widget,
       )),
     );
@@ -239,12 +260,12 @@ class _SingleDayContainerState extends State<SingleDayContainer>
     var bodyStyle = TextStyle(
         color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16);
     var bottomStyle = TextStyle(color: Colors.white);
+    var smallBottomStyle = TextStyle(color: Colors.white, fontSize: 12);
     var dayStyle = TextStyle(
         color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
     
     var hourMinute = '${_selectedDate.hour.toString().padLeft(2, '0')}:${_selectedDate.minute.toString().padLeft(2, '0')}';
     var lunarDates = convertSolar2Lunar(_selectedDate.day, _selectedDate.month, _selectedDate.year, 7);
-    var jd = jdn(_selectedDate.day, _selectedDate.month, _selectedDate.year);
 
     var lunarDay = lunarDates[0];
     var lunarMonth = lunarDates[1];
@@ -254,46 +275,64 @@ class _SingleDayContainerState extends State<SingleDayContainer>
     var lunarMonthNameInCanChi = getLunarMonthNameInCanChi(lunarMonth, lunarYear);
     var lunarDayNameInCanChi = getLunarDayNameInCanChi(jd);
 
-    
-    
-    var beginHourName = getBeginHour(jd);
+    var gioHoangDao = getGioHoangDao(jd);
+    var beginHourNameInCanChi = getBeginHourNameInCanChi(jd);
 
     return Container(
       height: 120,
       color: Colors.black.withOpacity(0.3),
       child: (new IntrinsicHeight(
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            this.infoBox(
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(hourMinute, style: bodyStyle),
-                    Text(beginHourName, style: bottomStyle),
-                  ],
-                ),
-                true),
-            this.infoBox(
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(lunarDay.toString(), style: dayStyle),
-                    Text('THÁNG ${lunarMonth.toString()}', style: headerStyle),
-                  ],
-                ),
-                true),
-            this.infoBox(
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Năm ${lunarYearNameInCanChi}\nTháng ${lunarMonthNameInCanChi}\nNgày ${lunarDayNameInCanChi}', style: bottomStyle),
-                  ],
-                ),
-                false)
+        child: Column(
+          children: [
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                this.infoBox(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(hourMinute, style: bodyStyle),
+                        Text('Giờ đầu:\n${beginHourNameInCanChi}', style: smallBottomStyle),
+                      ],
+                    ),
+                    true),
+                this.infoBox(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(lunarDay.toString(), style: dayStyle),
+                        Text('THÁNG ${lunarMonth.toString()}', style: headerStyle),
+                      ],
+                    ),
+                    true),
+                this.infoBox(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Năm ${lunarYearNameInCanChi}\nTháng ${lunarMonthNameInCanChi}\nNgày ${lunarDayNameInCanChi}', style: smallBottomStyle),
+                      ],
+                    ),
+                    false)
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                this.bottomBox(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Giờ Hoàng Đạo:', style: smallBottomStyle),
+                        Text('${gioHoangDao}', style: smallBottomStyle)
+                      ],
+                    ),
+                  ),
+              ],
+            )
           ],
         ),
       )),

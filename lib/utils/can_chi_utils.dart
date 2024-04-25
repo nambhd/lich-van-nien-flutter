@@ -23,21 +23,16 @@ getLunarMonthNameInCanChi(int lunarMonth, int lunarYear) {
   return '${can} ${chi}';
 }
 
-/*
- Get Can-Chi of lunar month.
- If this month is leap month, the lunar month name in Can-Chi has "(nhuận)" at the end
-*/
-getLunarMonthNameInCanChiV2(int lunarMonth, int lunarYear) {
-  var can = CAN[(lunarYear * 12 + lunarMonth + 3) % 10];
-  var chi = CHI[(lunarMonth + 1) % 12];
-
-  // TODO: Check leap month
-  return '${can} ${chi}';
-}
-
 getLunarDayNameInCanChi(int jdn) {
   var can = CAN[(jdn + 9) % 10];
   var chi = CHI[(jdn + 1) % 12];
+
+  return '${can} ${chi}';
+}
+
+getBeginHourNameInCanChi(int jdn) {
+  var can = CAN[(jdn - 1) * 2 % 10];
+  var chi = CHI[0];
 
   return '${can} ${chi}';
 }
@@ -61,9 +56,8 @@ getGioHoangDao(jd) {
   for (var i = 0; i < 12; i++) {
     if (gioHD.substring(i, i + 1) == '1') {
       ret += CHI[i];
-      ret += ' (${{(i*2+23)%24}}-${{(i*2+1)%24}})';
+      ret += ' (${(i*2+23)%24}-${(i*2+1)%24})';
       if (count++ < 5) ret += ', ';
-      if (count == 3) ret += '\n';
     }
   }
   return ret;
