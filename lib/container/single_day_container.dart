@@ -1,3 +1,4 @@
+import 'package:calendar/utils/anniversary_day_utils.dart';
 import 'package:calendar/utils/can_chi_utils.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -23,6 +24,7 @@ class _SingleDayContainerState extends State<SingleDayContainer>
 
   DateTime _selectedDate = DateTime.now();
   var jd;
+  var lunarDate, lunarDay, lunarMonth, lunarYear, lunarLeap;
   
   late Timer _timer;
   late AnimationController _controller;
@@ -34,6 +36,11 @@ class _SingleDayContainerState extends State<SingleDayContainer>
     this._getData();
 
     jd = jdn(_selectedDate.day, _selectedDate.month, _selectedDate.year);
+    var lunarDate = convertSolar2Lunar(_selectedDate.day, _selectedDate.month, _selectedDate.year, 7);
+    lunarDay = lunarDate[0];
+    lunarMonth = lunarDate[1];
+    lunarYear = lunarDate[2];
+    lunarLeap = lunarDate[3];
 
     //_animation
     _controller = AnimationController(
@@ -142,9 +149,9 @@ class _SingleDayContainerState extends State<SingleDayContainer>
   Widget getMainDate() {
     var backgroundIndex = (_selectedDate.day % 17);
     var dayOfWeek = getNameDayOfWeek(_selectedDate);
-    var quote = new QuoteVO("", "");
+    var anniversaryDay = getAnniversaryDay(lunarDay, lunarMonth, _selectedDate.day, _selectedDate.month);
+
     if (_quoteData.length > 0) {
-      quote = _quoteData[_selectedDate.day % _quoteData.length];
     }
     const dayOfWeekStyle = TextStyle(
       color: Colors.white,
@@ -202,14 +209,14 @@ class _SingleDayContainerState extends State<SingleDayContainer>
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: this.paddingText(20, quote.content, quoteStyle),
+                        child: this.paddingText(20, anniversaryDay, quoteStyle),
                       ),
                     ),
                     Expanded(
                       child: Align(
                         alignment: Alignment.centerRight,
                         child:
-                            this.paddingText(20, quote.author, quoteAuthorStyle),
+                            this.paddingText(20, '', quoteAuthorStyle),
                       ),
                     ),
                     Expanded(
@@ -265,11 +272,6 @@ class _SingleDayContainerState extends State<SingleDayContainer>
         color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
     
     var hourMinute = '${_selectedDate.hour.toString().padLeft(2, '0')}:${_selectedDate.minute.toString().padLeft(2, '0')}';
-    var lunarDates = convertSolar2Lunar(_selectedDate.day, _selectedDate.month, _selectedDate.year, 7);
-
-    var lunarDay = lunarDates[0];
-    var lunarMonth = lunarDates[1];
-    var lunarYear = lunarDates[2];
 
     var lunarYearNameInCanChi = getLunarYearNameInCanChi(lunarYear);
     var lunarMonthNameInCanChi = getLunarMonthNameInCanChi(lunarMonth, lunarYear);
